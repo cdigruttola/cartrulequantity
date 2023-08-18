@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>cartrulequantity</name>
+    <displayName><![CDATA[Cart Rule quantities]]></displayName>
+    <version><![CDATA[1.0.0]]></version>
+    <description><![CDATA[Cart Rule Quantities allows you to set, for each category, a value whereby the total quantities of products in the specific category in the shopping cart must be multiples of that value.]]></description>
+    <author><![CDATA[cdigruttola]]></author>
+    <tab><![CDATA[front_office_features]]></tab>
+	<confirmUninstall><![CDATA[Are you sure you want to uninstall this module?]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
+    <need_instance>0</need_instance>
+</module>

@@ -1,0 +1,41 @@
+cartrulequantity_controller:
+    path: /cartrulequantity/configuration
+    methods: [GET]
+    defaults:
+        _controller: 'cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController::index'
+
+cartrulequantity_controller_configuration_save:
+    path: /cartrulequantity/configuration
+    methods: [POST, PATCH]
+    defaults:
+        _controller: 'cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController::saveConfiguration'
+
+cartrulequantity_controller_create:
+    path: /cartrulequantity/create
+    methods: [GET, POST]
+    defaults:
+        _controller: 'cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController::create'
+
+cartrulequantity_controller_edit:
+    path: /cartrulequantity/{id}/edit
+    methods: [GET, POST]
+    defaults:
+        _controller: 'cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController::edit'
+    requirements:
+        id: \d+
+
+cartrulequantity_controller_delete:
+    path: /cartrulequantity/{id}/delete
+    methods: [GET, POST]
+    defaults:
+        _controller: 'cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController::delete'
+    requirements:
+        id: \d+
+
+cartrulequantity_controller_toggle_status:
+    path: /cartrulequantity/{id}/toggle
+    methods: [POST]
+    defaults:
+        _controller: 'cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController::toggleStatus'
+    requirements:
+        id: \d+

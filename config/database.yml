@@ -1,0 +1,20 @@
+database:
+  cart_rule_quantity:
+    columns:
+      id_cart_rule_quantity: INT AUTO_INCREMENT NOT NULL
+      multiple_quantity_value: INT NOT NULL
+      name: VARCHAR(255) NOT NULL
+      active: TINYINT(1) NOT NULL
+      categories_id: VARCHAR(255)
+    primary:
+      - id_cart_rule_quantity
+    engine: InnoDb
+
+  cart_rule_quantity_shop:
+    columns:
+      id_cart_rule_quantity: INT NOT NULL
+      id_shop: INT NOT NULL
+    primary:
+      - id_cart_rule_quantity
+      - id_shop
+    engine: InnoDb

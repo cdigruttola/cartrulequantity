@@ -1,0 +1,50 @@
+#related-product .typeahead-list li, .d-flex, .redirect-option-widget .typeahead-list li {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important
+}
+
+#related-product .typeahead-list li, .align-items-center, .redirect-option-widget .typeahead-list li {
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important
+}
+
+#related-product .typeahead-list li, .mt-1, .my-1, .redirect-option-widget .typeahead-list li {
+    margin-top: .3125rem !important
+}
+
+#related-product .typeahead-list li > .media-body .label, .mr-1, .mx-1, .redirect-option-widget .typeahead-list li > .media-body .label {
+    margin-right: .3125rem !important
+}
+
+#related-product .typeahead-list li > .media-body .label, .ml-1, .mx-1, .redirect-option-widget .typeahead-list li > .media-body .label {
+    margin-left: .3125rem !important
+}
+
+#related-product .typeahead-list li, .p-1, .redirect-option-widget .typeahead-list li {
+    padding: .3125rem !important
+}
+
+#related-product .typeahead-list li, .redirect-option-widget .typeahead-list li {
+    border: 1px solid #bbcdd2
+}
+
+#related-product .typeahead-list li > .media-left img, .redirect-option-widget .typeahead-list li > .media-left img {
+    max-width: 50px;
+    max-height: 50px
+}
+
+#related-product .typeahead-list li > .media-body i.delete, .redirect-option-widget .typeahead-list li > .media-body i.delete {
+    float: right;
+    color: #6c868e;
+    cursor: pointer
+}
+
+#related-product .autocomplete-search .search-suggestion img, .redirect-option-widget .autocomplete-search .search-suggestion img {
+    width: 50px
+}
+
+.tt-menu {
+    background: white;
+}

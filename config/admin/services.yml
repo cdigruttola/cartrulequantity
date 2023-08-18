@@ -1,0 +1,146 @@
+imports:
+  - { resource: ../common.yml }
+
+services:
+  _defaults:
+    public: true
+
+  # Controller
+  cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController:
+    public: true
+    class: cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController
+
+  # installer
+  cdigruttola.cartrulequantity.cart_rule_quantity_installer:
+    class: 'cdigruttola\CartRuleQuantity\Installer\CartRuleQuantityInstaller'
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - '@cdigruttola.cartrulequantity.installer.database_yml_parser'
+      - "@=service('prestashop.adapter.legacy.context').getContext()"
+
+  cdigruttola.cartrulequantity.installer.database_yml_parser:
+    class: 'cdigruttola\CartRuleQuantity\Installer\DatabaseYamlParser'
+    arguments:
+      - '@cdigruttola.cartrulequantity.installer.database_yml_parser_provider'
+
+  cdigruttola.cartrulequantity.installer.database_yml_parser_provider:
+    class: 'cdigruttola\CartRuleQuantity\Installer\Provider\DatabaseYamlProvider'
+    arguments:
+      - '@cdigruttola.cartrulequantity.module'
+
+  cdigruttola.cartrulequantity.installer.action_database_create_table:
+    class: 'cdigruttola\CartRuleQuantity\Installer\ActionDatabaseCrateTable'
+    parent: 'cdigruttola.cartrulequantity.installer.abstract_action_database'
+    public: true
+
+  cdigruttola.cartrulequantity.installer.action_database_drop_table:
+    class: 'cdigruttola\CartRuleQuantity\Installer\ActionDatabaseDropTable'
+    parent: 'cdigruttola.cartrulequantity.installer.abstract_action_database'
+    public: true
+
+  cdigruttola.cartrulequantity.installer.abstract_action_database:
+    class: 'cdigruttola\CartRuleQuantity\Installer\ActionDatabaseAbstract'
+    abstract: true
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+
+  #creation/edition form
+  cdigruttola.cartrulequantity.form.identifiable_object.data_provider.cart_rule_quantity_form_data_provider:
+    class: 'cdigruttola\CartRuleQuantity\Form\Provider\CartRuleQuantityFormDataProvider'
+    arguments:
+      - '@cdigruttola.cartrulequantity.repository.cart_rule_quantity'
+      - '@prestashop.adapter.shop.context'
+
+  cdigruttola.cartrulequantity.form.identifiable_object.builder.cart_rule_quantity_form_builder:
+    class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder'
+    factory: 'prestashop.core.form.builder.form_builder_factory:create'
+    arguments:
+      - 'cdigruttola\CartRuleQuantity\Form\CartRuleQuantityType'
+      - '@cdigruttola.cartrulequantity.form.identifiable_object.data_provider.cart_rule_quantity_form_data_provider'
+
+  cdigruttola.cartrulequantity.form.identifiable_object.data_handler.cart_rule_quantity_form_data_handler:
+    class: 'cdigruttola\CartRuleQuantity\Form\DataHandler\CartRuleQuantityFormDataHandler'
+    arguments:
+      - '@doctrine.orm.default_entity_manager'
+
+  cdigruttola.cartrulequantity.form.identifiable_object.handler.cart_rule_quantity_form_handler:
+    class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler'
+    factory: 'prestashop.core.form.identifiable_object.handler.form_handler_factory:create'
+    arguments:
+      - '@cdigruttola.cartrulequantity.form.identifiable_object.data_handler.cart_rule_quantity_form_data_handler'
+
+  #grid services
+  cdigruttola.cartrulequantity.grid.definition.factory.cart_rule_quantity:
+    class: 'cdigruttola\CartRuleQuantity\Grid\Definition\Factory\CartRuleQuantityGridDefinitionFactory'
+    parent: 'prestashop.core.grid.definition.factory.abstract_grid_definition'
+    public: true
+
+  cdigruttola.cartrulequantity.grid.query.cart_rule_quantity_query_builder:
+    class: 'cdigruttola\CartRuleQuantity\Grid\Query\CartRuleQuantityQueryBuilder'
+    parent: 'prestashop.core.grid.abstract_query_builder'
+    public: true
+    arguments:
+      - '@prestashop.adapter.shop.context'
+
+  cdigruttola.cartrulequantity.grid.cart_rule_quantity_grid_factory:
+    class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
+    arguments:
+      - '@cdigruttola.cartrulequantity.grid.definition.factory.cart_rule_quantity'
+      - '@cdigruttola.cartrulequantity.grid.data.factory.cart_rule_quantity_decorator'
+      - '@prestashop.core.grid.filter.form_factory'
+      - '@prestashop.core.hook.dispatcher'
+
+
+  cdigruttola.cartrulequantity.grid.data.factory.cart_rule_quantity_data_factory:
+    class: '%prestashop.core.grid.data.factory.doctrine_grid_data_factory%'
+    arguments:
+      - '@cdigruttola.cartrulequantity.grid.query.cart_rule_quantity_query_builder'
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.core.grid.query.doctrine_query_parser'
+      - 'is_productslider'
+
+
+  cdigruttola.cartrulequantity.grid.data.factory.cart_rule_quantity_decorator:
+    class: 'cdigruttola\CartRuleQuantity\Grid\Data\Factory\CartRuleQuantityGridDataFactory'
+    arguments:
+      - '@cdigruttola.cartrulequantity.grid.data.factory.cart_rule_quantity_data_factory'
+
+  # config form
+  cdigruttola.cartrulequantity.cart_rule_quantity.configuration:
+    class: 'cdigruttola\CartRuleQuantity\Form\DataConfiguration\CartRuleQuantityDataConfiguration'
+    arguments:
+      - '@prestashop.adapter.legacy.configuration'
+      - '@prestashop.adapter.shop.context'
+      - '@prestashop.adapter.multistore_feature'
+
+  cdigruttola.cartrulequantity.cart_rule_quantity_configuration.form_provider:
+    class: 'cdigruttola\CartRuleQuantity\Form\Provider\CartRuleQuantityConfigurationFormDataProvider'
+    arguments:
+      - '@cdigruttola.cartrulequantity.cart_rule_quantity.configuration'
+
+  cdigruttola.cartrulequantity.cart_rule_quantity_configuration.form_handler:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@cdigruttola.cartrulequantity.cart_rule_quantity_configuration.form_provider'
+      - 'cdigruttola\CartRuleQuantity\Form\CartRuleQuantityConfigurationType'
+      - 'ConfigurationForm'
+
+  cdigruttola.cartrulequantity.form.cart_rule_quantity_type:
+    class: 'cdigruttola\CartRuleQuantity\Form\CartRuleQuantityType'
+    parent: 'form.type.translatable.aware'
+    arguments:
+      - '@=service("prestashop.adapter.multistore_feature").isUsed()'
+      - "@prestashop.adapter.legacy.context"
+    public: true
+    tags:
+      - { name: form.type }
+
+  cdigruttola.cartrulequantity.form.cart_rule_quantity_configuration_type:
+    class: 'cdigruttola\CartRuleQuantity\Form\CartRuleQuantityConfigurationType'
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }

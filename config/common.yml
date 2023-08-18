@@ -1,0 +1,21 @@
+services:
+  _defaults:
+    public: true
+
+  cdigruttola.cartrulequantity.module:
+    class: Cartrulequantity
+    factory: [ 'Module', 'getInstanceByName' ]
+    public: false
+    arguments:
+      - 'cartrulequantity'
+
+  cdigruttola.cartrulequantity.repository.cart_rule_quantity:
+    class: cdigruttola\CartRuleQuantity\Repository\CartRuleQuantityRepository
+    public: true
+    factory: ['@doctrine.orm.default_entity_manager', getRepository]
+    arguments:
+      - cdigruttola\CartRuleQuantity\Entity\CartRuleQuantity
+
+  cdigruttola.cartrulequantity.configuration.cart_rule_quantity_configuration:
+    class: cdigruttola\CartRuleQuantity\Configuration\CartRuleQuantityConfiguration
+    public: true
