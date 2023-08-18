@@ -33,6 +33,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 use cdigruttola\CartRuleQuantity\Installer\CartRuleQuantityInstaller;
 use cdigruttola\CartRuleQuantity\Installer\DatabaseYamlParser;
 use cdigruttola\CartRuleQuantity\Installer\Provider\DatabaseYamlProvider;
+use cdigruttola\CartRuleQuantity\Repository\CartRuleQuantityRepository;
 use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -115,6 +116,17 @@ class Cartrulequantity extends Module
         return $installer;
     }
 
+    private function getRepository(): ?CartRuleQuantityRepository
+    {
+        try {
+            $entityRepository = $this->getService('cdigruttola.cartrulequantity.repository.cart_rule_quantity');
+        } catch (Error $error) {
+            $entityRepository = null;
+        }
+
+        return $entityRepository;
+    }
+
     /**
      * @template T
      *
@@ -133,5 +145,35 @@ class Cartrulequantity extends Module
 
     public function hookActionCartSave($params)
     {
+        $entityRepository = $this->getRepository();
+        if ($entityRepository === null) {
+            return;
+        }
+        $rules = $entityRepository->getSimpleActiveCartRuleQuantityByStoreId($this->context->shop->id);
+        if (empty($rules)) {
+            // TODO check default value
+        }
+
+        /** @var Cart $cart */
+        $cart = $params['cart'];
+        $products = $cart->getProducts();
+
+        $rule_product_qty = [];
+
+        foreach ($products as $cart_product) {
+            /** @var Product $product */
+            $product = new Product($cart_product['id_product']);
+            $product_categories = $product->getCategories();
+            foreach ($rules as $rule) {
+                $rule_categories = explode(',', $rule['categories_id']);
+                if (!empty(array_intersect($rule_categories, $product_categories))) {
+                    if ($rule_product_qty[$rule['id']] !== null) {
+                        $rule_product_qty[$rule['id']] += $cart_product['cart_quantity'];
+                    } else {
+                        $rule_product_qty[$rule['id']] = $cart_product['cart_quantity'];
+                    }
+                }
+            }
+        }
     }
 }

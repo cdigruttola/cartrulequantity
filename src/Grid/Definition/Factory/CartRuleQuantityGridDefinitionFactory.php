@@ -12,8 +12,8 @@ use PrestaShop\PrestaShop\Core\Grid\Action\Row\Type\LinkRowAction;
 use PrestaShop\PrestaShop\Core\Grid\Action\Type\SimpleGridAction;
 use PrestaShop\PrestaShop\Core\Grid\Column\ColumnCollection;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\ActionColumn;
+use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\DataColumn;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\ToggleColumn;
-use PrestaShop\PrestaShop\Core\Grid\Column\Type\DataColumn;
 use PrestaShop\PrestaShop\Core\Grid\Definition\Factory\AbstractGridDefinitionFactory;
 use PrestaShop\PrestaShop\Core\Grid\Filter\Filter;
 use PrestaShop\PrestaShop\Core\Grid\Filter\FilterCollection;
@@ -49,6 +49,13 @@ class CartRuleQuantityGridDefinitionFactory extends AbstractGridDefinitionFactor
     {
         return (new ColumnCollection())
             ->add(
+                (new DataColumn('id_cart_rule_quantity'))
+                    ->setName($this->trans('ID', [], 'Admin.Global'))
+                    ->setOptions([
+                        'field' => 'id_cart_rule_quantity',
+                    ])
+            )
+            ->add(
                 (new DataColumn('name'))
                     ->setName($this->trans('Name', [], 'Admin.Global'))
                     ->setOptions([
@@ -56,10 +63,10 @@ class CartRuleQuantityGridDefinitionFactory extends AbstractGridDefinitionFactor
                     ])
             )
             ->add(
-                (new DataColumn('id_cart_rule_quantity'))
-                    ->setName($this->trans('ID', [], 'Admin.Global'))
+                (new DataColumn('multiple_quantity_value'))
+                    ->setName($this->trans('Quantity', [], 'Admin.Global'))
                     ->setOptions([
-                        'field' => 'id_cart_rule_quantity',
+                        'field' => 'multiple_quantity_value',
                     ])
             )
             ->add(
