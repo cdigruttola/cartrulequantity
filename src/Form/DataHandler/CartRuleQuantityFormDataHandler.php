@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Form\DataHandler;
 
-use Doctrine\ORM\EntityManagerInterface;
 use cdigruttola\CartRuleQuantity\Entity\CartRuleQuantity;
+use Doctrine\ORM\EntityManagerInterface;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataHandler\FormDataHandlerInterface;
 use PrestaShopBundle\Entity\Shop;
 
@@ -31,7 +31,7 @@ class CartRuleQuantityFormDataHandler implements FormDataHandlerInterface
 
         $entity->setActive($data['active']);
         $entity->setName($data['name']);
-        $entity->setMultipleQuantityValue((int)$data['quantity']);
+        $entity->setMultipleQuantityValue((int) $data['quantity']);
         $entity->setCategoriesId($data['categories_id']);
         $this->addAssociatedShops($entity, $data['shop_association'] ?? null);
 
@@ -50,7 +50,7 @@ class CartRuleQuantityFormDataHandler implements FormDataHandlerInterface
 
         $entity->setActive($data['active']);
         $entity->setName($data['name']);
-        $entity->setMultipleQuantityValue((int)$data['quantity']);
+        $entity->setMultipleQuantityValue((int) $data['quantity']);
         $entity->setCategoriesId($data['categories_id']);
         $this->addAssociatedShops($entity, $data['shop_association'] ?? null);
 
@@ -63,7 +63,7 @@ class CartRuleQuantityFormDataHandler implements FormDataHandlerInterface
      * @param CartRuleQuantity $slider
      * @param array|null $shopIdList
      */
-    private function addAssociatedShops(CartRuleQuantity & $slider, array $shopIdList = null): void
+    private function addAssociatedShops(CartRuleQuantity &$slider, array $shopIdList = null): void
     {
         $slider->clearShops();
 

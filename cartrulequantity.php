@@ -134,5 +134,4 @@ class Cartrulequantity extends Module
     public function hookActionCartSave($params)
     {
     }
-
 }

@@ -27,20 +27,15 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Form;
 
-use cdigruttola\CartRuleQuantity\Configuration\ProductSliderConfiguration;
 use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
 use PrestaShop\PrestaShop\Adapter\LegacyContext;
 use PrestaShop\PrestaShop\Core\ConstraintValidator\Constraints\PositiveOrZero;
 use PrestaShopBundle\Form\Admin\Type\CategoryChoiceTreeType;
 use PrestaShopBundle\Form\Admin\Type\ShopChoiceTreeType;
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
-use PrestaShopBundle\Form\Admin\Type\TranslatableType;
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
-use PrestaShopBundle\Form\Admin\Type\TypeaheadProductCollectionType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -100,7 +95,7 @@ class CartRuleQuantityType extends TranslatorAwareType
             ->add('categories_id', CategoryChoiceTreeType::class, [
                 'label' => $this->trans('Categories', 'Admin.Global'),
                 'required' => false,
-                'multiple' => true
+                'multiple' => true,
             ]);
 
         if ($this->isMultistoreUsed) {

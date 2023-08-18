@@ -17,7 +17,6 @@ final class CartRuleQuantityQueryBuilder extends AbstractDoctrineQueryBuilder
      */
     private $shopContext;
 
-
     /**
      * Constructor.
      *

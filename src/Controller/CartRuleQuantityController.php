@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Controller;
 
-use Exception;
 use cdigruttola\CartRuleQuantity\Entity\CartRuleQuantity;
 use cdigruttola\CartRuleQuantity\Filter\CartRuleQuantityFilters;
 use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
+use Exception;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CartRuleQuantityController extends FrameworkBundleAdminController
 {
-
     public function index(CartRuleQuantityFilters $filters): Response
     {
         $gridFactory = $this->get('cdigruttola.cartrulequantity.grid.cart_rule_quantity_grid_factory');

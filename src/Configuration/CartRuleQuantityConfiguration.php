@@ -37,5 +37,4 @@ class CartRuleQuantityConfiguration
     {
         return Configuration::get(self::CART_RULE_DEFAULT_QUANTITY);
     }
-
 }

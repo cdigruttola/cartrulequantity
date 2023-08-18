@@ -111,11 +111,13 @@ class CartRuleQuantity
 
     /**
      * @param string $name
+     *
      * @return $this
      */
     public function setName(string $name): CartRuleQuantity
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -149,11 +151,13 @@ class CartRuleQuantity
 
     /**
      * @param int $multiple_quantity_value
+     *
      * @return $this
      */
     public function setMultipleQuantityValue(int $multiple_quantity_value): CartRuleQuantity
     {
         $this->multiple_quantity_value = $multiple_quantity_value;
+
         return $this;
     }
 
@@ -165,6 +169,7 @@ class CartRuleQuantity
         if (!empty($this->categories_id)) {
             return explode(',', $this->categories_id);
         }
+
         return null;
     }
 
@@ -223,5 +228,4 @@ class CartRuleQuantity
 
         return $this;
     }
-
 }

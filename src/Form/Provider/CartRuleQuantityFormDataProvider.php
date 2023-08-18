@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Form\Provider;
 
-use Doctrine\ORM\EntityRepository;
 use cdigruttola\CartRuleQuantity\Entity\CartRuleQuantity;
+use Doctrine\ORM\EntityRepository;
 use PrestaShop\PrestaShop\Adapter\Shop\Context;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataProvider\FormDataProviderInterface;
 

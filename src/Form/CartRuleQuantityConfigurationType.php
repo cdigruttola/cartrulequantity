@@ -42,7 +42,6 @@ class CartRuleQuantityConfigurationType extends TranslatorAwareType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
             ->add('default_value', TextType::class, [
                 'attr' => ['class' => 'col-md-4 col-lg-2'],
