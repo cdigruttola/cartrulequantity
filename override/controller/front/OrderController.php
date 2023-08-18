@@ -22,10 +22,8 @@
  * @copyright Copyright since 2007 Carmine Di Gruttola
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
 class OrderController extends OrderControllerCore
 {
-
     public function displayAjaxCheckCartStillOrderable(): void
     {
         $responseData = [
@@ -46,5 +44,4 @@ class OrderController extends OrderControllerCore
         header('Content-Type: application/json');
         $this->ajaxRender(json_encode($responseData));
     }
-
 }

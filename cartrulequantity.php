@@ -160,6 +160,7 @@ class Cartrulequantity extends Module
 
     /**
      * @param Cart $cart
+     *
      * @return bool
      */
     public function checkCartRuleQuantity(Cart $cart): bool
@@ -212,6 +213,7 @@ class Cartrulequantity extends Module
                 $found_rule = true;
             }
         }
+
         return $found_rule;
     }
 }
