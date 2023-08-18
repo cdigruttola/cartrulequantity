@@ -74,6 +74,7 @@ class Cartrulequantity extends Module
 
         return parent::install()
             && $tableResult
+            && $this->registerHook('displayHeader')
             && $this->registerHook('actionCartSave');
     }
 
@@ -143,22 +144,39 @@ class Cartrulequantity extends Module
         }
     }
 
+    public function hookDisplayHeader()
+    {
+        $jsUrl = '/modules/' . $this->name . '/views/js/front.js';
+        $this->context->controller->registerJavascript(sha1($jsUrl), $jsUrl, ['position' => 'bottom', 'priority' => 80]);
+    }
+
     public function hookActionCartSave($params)
+    {
+        /** @var Cart $cart */
+        $cart = $params['cart'];
+
+        $this->checkCartRuleQuantity($cart);
+    }
+
+    /**
+     * @param Cart $cart
+     * @return bool
+     */
+    public function checkCartRuleQuantity(Cart $cart): bool
     {
         $entityRepository = $this->getRepository();
         if ($entityRepository === null) {
-            return;
+            return false;
         }
         $rules = $entityRepository->getSimpleActiveCartRuleQuantityByStoreId($this->context->shop->id);
         if (empty($rules)) {
             // TODO check default value
         }
 
-        /** @var Cart $cart */
-        $cart = $params['cart'];
         $products = $cart->getProducts();
 
-        $rule_product_qty = [];
+        $rules_product_qty = [];
+        $rules_products = [];
 
         foreach ($products as $cart_product) {
             /** @var Product $product */
@@ -166,14 +184,34 @@ class Cartrulequantity extends Module
             $product_categories = $product->getCategories();
             foreach ($rules as $rule) {
                 $rule_categories = explode(',', $rule['categories_id']);
-                if (!empty(array_intersect($rule_categories, $product_categories))) {
-                    if ($rule_product_qty[$rule['id']] !== null) {
-                        $rule_product_qty[$rule['id']] += $cart_product['cart_quantity'];
+                $intersect = array_intersect($rule_categories, $product_categories);
+                if (!empty($intersect)) {
+                    if (isset($rules_product_qty[$rule['id']])) {
+                        $rules_product_qty[$rule['id']] += $cart_product['cart_quantity'];
+                        $rules_products[$rule['id']] = array_merge($rules_products[$rule['id']], [$product->name[$this->context->language->id]]);
                     } else {
-                        $rule_product_qty[$rule['id']] = $cart_product['cart_quantity'];
+                        $rules_product_qty[$rule['id']] = $cart_product['cart_quantity'];
+                        $rules_products[$rule['id']] = [$product->name[$this->context->language->id]];
                     }
                 }
             }
         }
+
+        if (empty($rules_product_qty)) {
+            return false;
+        }
+
+        $found_rule = false;
+        foreach ($rules as $rule) {
+            if ($rules_product_qty[$rule['id']] % $rule['multiple_quantity_value'] !== 0) {
+                $this->context->controller->errors[] = $this->trans(
+                    'Error in cart due to cart rule quantity, the sum of quantity of product(s) %s must be in multiple of %d',
+                    [implode(', ', $rules_products[$rule['id']]), $rule['multiple_quantity_value']],
+                    TranslationDomains::TRANSLATION_DOMAIN_FRONT
+                );
+                $found_rule = true;
+            }
+        }
+        return $found_rule;
     }
 }
