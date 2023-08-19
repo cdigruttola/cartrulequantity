@@ -30,6 +30,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
+use cdigruttola\CartRuleQuantity\Configuration\CartRuleQuantityConfiguration;
 use cdigruttola\CartRuleQuantity\Installer\CartRuleQuantityInstaller;
 use cdigruttola\CartRuleQuantity\Installer\DatabaseYamlParser;
 use cdigruttola\CartRuleQuantity\Installer\Provider\DatabaseYamlProvider;
@@ -73,7 +74,8 @@ class Cartrulequantity extends Module
         }
 
         return parent::install()
-            && $tableResult;
+            && $tableResult
+            && Configuration::updateValue(CartRuleQuantityConfiguration::CART_RULE_DEFAULT_QUANTITY, 1);
     }
 
     public function uninstall($reset = false)
@@ -126,6 +128,21 @@ class Cartrulequantity extends Module
         return $entityRepository;
     }
 
+    private function getConfiguration(): CartRuleQuantityConfiguration
+    {
+        try {
+            $configuration = $this->getService('cdigruttola.cartrulequantity.configuration.cart_rule_quantity_configuration');
+        } catch (Error $error) {
+            $configuration = null;
+        }
+
+        if (null === $configuration) {
+            $configuration = new CartRuleQuantityConfiguration();
+        }
+
+        return $configuration;
+    }
+
     /**
      * @template T
      *
@@ -155,7 +172,14 @@ class Cartrulequantity extends Module
         }
         $rules = $entityRepository->getSimpleActiveCartRuleQuantityByStoreId($this->context->shop->id);
         if (empty($rules)) {
-            // TODO check default value
+            $default = $this->getConfiguration()->getCartRuleDefaultQuantity();
+            if ($default && ((int) $default) > 1) {
+                $rule = [];
+                $rule['id'] = 0;
+                $rule['multiple_quantity_value'] = (int) $default;
+                $rule['categories_id'] = Category::getRootCategory()->id;
+                $rules[] = $rule;
+            }
         }
 
         $products = $cart->getProducts();
@@ -167,10 +191,15 @@ class Cartrulequantity extends Module
             /** @var Product $product */
             $product = new Product($cart_product['id_product']);
             $product_categories = $product->getCategories();
+            $parentCategories = [];
+            foreach ($product->getParentCategories() as $parentCategory) {
+                $parentCategories[] = $parentCategory['id_category'];
+            }
+            $product_categories = array_unique(array_merge($product_categories, $parentCategories));
             foreach ($rules as $rule) {
                 $rule_categories = explode(',', $rule['categories_id']);
                 $intersect = array_intersect($rule_categories, $product_categories);
-                if (!empty($intersect)) {
+                if (!empty($intersect) || $rule['id'] == 0) {
                     if (isset($rules_product_qty[$rule['id']])) {
                         $rules_product_qty[$rule['id']] += $cart_product['cart_quantity'];
                         $rules_products[$rule['id']] = array_unique(array_merge($rules_products[$rule['id']], $intersect));

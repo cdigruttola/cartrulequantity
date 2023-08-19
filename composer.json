@@ -27,5 +27,8 @@
     }
   },
   "type": "prestashop-module",
-  "author": "cdigruttola"
+  "author": "cdigruttola",
+  "require-dev": {
+    "prestashop/php-dev-tools": "^3.16"
+  }
 }
