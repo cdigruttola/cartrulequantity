@@ -48,7 +48,7 @@ class CartController extends CartControllerCore
     {
         if ($this->module && $this->module->active && ($errors = $this->module->checkCartRuleQuantity($this->context->cart))) {
             foreach ($errors as $error) {
-                $this->errors[] = $error;
+                $this->updateOperationError[] = $error;
             }
         }
         parent::displayAjaxUpdate();
