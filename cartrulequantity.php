@@ -173,13 +173,14 @@ class Cartrulequantity extends Module
                 if (!empty($intersect)) {
                     if (isset($rules_product_qty[$rule['id']])) {
                         $rules_product_qty[$rule['id']] += $cart_product['cart_quantity'];
-                        $rules_products[$rule['id']] = array_merge($rules_products[$rule['id']], [$product->name[$this->context->language->id]]);
+                        $rules_products[$rule['id']] = array_unique(array_merge($rules_products[$rule['id']], $this->getCategoryName($intersect)));
                     } else {
                         $rules_product_qty[$rule['id']] = $cart_product['cart_quantity'];
-                        $rules_products[$rule['id']] = [$product->name[$this->context->language->id]];
+                        $rules_products[$rule['id']] = $this->getCategoryName($intersect);
                     }
                 }
             }
+            unset($product);
         }
 
         if (empty($rules_product_qty)) {
@@ -190,7 +191,7 @@ class Cartrulequantity extends Module
         foreach ($rules as $rule) {
             if ($rules_product_qty[$rule['id']] % $rule['multiple_quantity_value'] !== 0) {
                 $errors[] = $this->trans(
-                    'Error in cart due to cart rule quantity, the sum of quantity of product(s) %s must be in multiple of %d',
+                    'Warning, you can only buy products in category %s in multiples of %d',
                     [implode(', ', $rules_products[$rule['id']]), $rule['multiple_quantity_value']],
                     TranslationDomains::TRANSLATION_DOMAIN_FRONT
                 );
@@ -198,5 +199,17 @@ class Cartrulequantity extends Module
         }
 
         return !empty($errors) ? $errors : false;
+    }
+
+    private function getCategoryName($array)
+    {
+        $toReturn = [];
+        foreach ($array as $id) {
+            $cat = new Category($id);
+            $toReturn[] = $cat->getName();
+            unset($cat);
+        }
+
+        return $toReturn;
     }
 }
