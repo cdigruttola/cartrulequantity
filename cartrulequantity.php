@@ -197,6 +197,6 @@ class Cartrulequantity extends Module
             }
         }
 
-        return !empty($errors)? $errors: false;
+        return !empty($errors) ? $errors : false;
     }
 }

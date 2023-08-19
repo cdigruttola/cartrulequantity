@@ -22,11 +22,9 @@
  * @copyright Copyright since 2007 Carmine Di Gruttola
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
 class CartController extends CartControllerCore
 {
-
-    /** @var Cartrulequantity|false $module */
+    /** @var Cartrulequantity|false */
     private $module;
 
     /**
@@ -87,8 +85,7 @@ class CartController extends CartControllerCore
             'cart_summary_totals' => $this->render('checkout/_partials/cart-summary-totals'),
             'cart_detailed_actions' => $cart_detailed_action,
             'cart_voucher' => $this->render('checkout/_partials/cart-voucher'),
-            'cart_summary_top' => $this->render('checkout/_partials/cart-summary-top')
+            'cart_summary_top' => $this->render('checkout/_partials/cart-summary-top'),
         ]));
     }
-
 }
