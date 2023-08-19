@@ -188,20 +188,21 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
             ->findOneBy(['id' => $id]);
 
         if (empty($entity)) {
-            return $this->json([
+            $response = [
                 'status' => false,
                 'message' => sprintf('Entity %d doesn\'t exist', $id),
-            ]);
+            ];
+            $errors = [$response];
+            $this->flashErrors($errors);
+
+            return $this->redirectToRoute('cartrulequantity_controller');
         }
 
         try {
             $entity->setActive(!$entity->getActive());
             $entityManager->flush();
 
-            $response = [
-                'status' => true,
-                'message' => $this->trans('The status has been successfully updated.', 'Admin.Notifications.Success'),
-            ];
+            $this->addFlash('success', $this->trans('The status has been successfully updated.', 'Admin.Notifications.Success'));
         } catch (\Exception $e) {
             $response = [
                 'status' => false,
@@ -211,9 +212,11 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
                     $e->getMessage()
                 ),
             ];
+            $errors = [$response];
+            $this->flashErrors($errors);
         }
 
-        return $this->json($response);
+        return $this->redirectToRoute('cartrulequantity_controller');
     }
 
     /**
