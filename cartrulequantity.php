@@ -73,16 +73,14 @@ class Cartrulequantity extends Module
         }
 
         return parent::install()
-            && $tableResult
-            && $this->registerHook('displayHeader')
-            && $this->registerHook('actionCartSave');
+            && $tableResult;
     }
 
     public function uninstall($reset = false)
     {
         $tableResult = true;
         if (!$reset) {
-            $tableResult = $this->getInstaller()->dropTables();
+            //$tableResult = $this->getInstaller()->dropTables();
         }
 
         return $tableResult && parent::uninstall();
@@ -144,26 +142,12 @@ class Cartrulequantity extends Module
         }
     }
 
-    public function hookDisplayHeader()
-    {
-        $jsUrl = '/modules/' . $this->name . '/views/js/front.js';
-        $this->context->controller->registerJavascript(sha1($jsUrl), $jsUrl, ['position' => 'bottom', 'priority' => 80]);
-    }
-
-    public function hookActionCartSave($params)
-    {
-        /** @var Cart $cart */
-        $cart = $params['cart'];
-
-        $this->checkCartRuleQuantity($cart);
-    }
-
     /**
      * @param Cart $cart
      *
-     * @return bool
+     * @return array|bool
      */
-    public function checkCartRuleQuantity(Cart $cart): bool
+    public function checkCartRuleQuantity(Cart $cart)
     {
         $entityRepository = $this->getRepository();
         if ($entityRepository === null) {
@@ -202,18 +186,17 @@ class Cartrulequantity extends Module
             return false;
         }
 
-        $found_rule = false;
+        $errors = [];
         foreach ($rules as $rule) {
             if ($rules_product_qty[$rule['id']] % $rule['multiple_quantity_value'] !== 0) {
-                $this->context->controller->errors[] = $this->trans(
+                $errors[] = $this->trans(
                     'Error in cart due to cart rule quantity, the sum of quantity of product(s) %s must be in multiple of %d',
                     [implode(', ', $rules_products[$rule['id']]), $rule['multiple_quantity_value']],
                     TranslationDomains::TRANSLATION_DOMAIN_FRONT
                 );
-                $found_rule = true;
             }
         }
 
-        return $found_rule;
+        return !empty($errors)? $errors: false;
     }
 }

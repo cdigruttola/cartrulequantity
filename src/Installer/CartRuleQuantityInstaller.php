@@ -94,7 +94,7 @@ class CartRuleQuantityInstaller
     {
         $databaseData = $this->databaseYaml->getParsedFileData();
         $container = $this->getContainer();
-        $dropTableAction = $container->get('cdigruttola.cartrulequantities.installer.action_database_drop_table');
+        $dropTableAction = $container->get('cdigruttola.cartrulequantity.installer.action_database_drop_table');
         $dropTableAction
             ->setData($databaseData)
             ->buildQuery();
