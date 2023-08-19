@@ -189,7 +189,7 @@ class Cartrulequantity extends Module
 
         $errors = [];
         foreach ($rules as $rule) {
-            if ($rules_product_qty[$rule['id']] % $rule['multiple_quantity_value'] !== 0) {
+            if (isset($rules_product_qty[$rule['id']]) && $rules_product_qty[$rule['id']] % $rule['multiple_quantity_value'] !== 0) {
                 $errors[] = $this->trans(
                     'Warning, you can only buy products in category %s in multiples of %d',
                     [implode(', ', $this->getCategoryName($rules_products[$rule['id']])), $rule['multiple_quantity_value']],
