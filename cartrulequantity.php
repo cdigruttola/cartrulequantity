@@ -173,10 +173,10 @@ class Cartrulequantity extends Module
                 if (!empty($intersect)) {
                     if (isset($rules_product_qty[$rule['id']])) {
                         $rules_product_qty[$rule['id']] += $cart_product['cart_quantity'];
-                        $rules_products[$rule['id']] = array_unique(array_merge($rules_products[$rule['id']], $this->getCategoryName($intersect)));
+                        $rules_products[$rule['id']] = array_unique(array_merge($rules_products[$rule['id']], $intersect));
                     } else {
                         $rules_product_qty[$rule['id']] = $cart_product['cart_quantity'];
-                        $rules_products[$rule['id']] = $this->getCategoryName($intersect);
+                        $rules_products[$rule['id']] = $intersect;
                     }
                 }
             }
@@ -192,7 +192,7 @@ class Cartrulequantity extends Module
             if ($rules_product_qty[$rule['id']] % $rule['multiple_quantity_value'] !== 0) {
                 $errors[] = $this->trans(
                     'Warning, you can only buy products in category %s in multiples of %d',
-                    [implode(', ', $rules_products[$rule['id']]), $rule['multiple_quantity_value']],
+                    [implode(', ', $this->getCategoryName($rules_products[$rule['id']])), $rule['multiple_quantity_value']],
                     TranslationDomains::TRANSLATION_DOMAIN_FRONT
                 );
             }
