@@ -82,7 +82,7 @@ class Cartrulequantity extends Module
     {
         $tableResult = true;
         if (!$reset) {
-            //$tableResult = $this->getInstaller()->dropTables();
+            $tableResult = $this->getInstaller()->dropTables();
         }
 
         return $tableResult && parent::uninstall();

@@ -34,9 +34,10 @@ class OrderController extends OrderControllerCore
         /** @var Cartrulequantity|false $module */
         $module = Module::getInstanceByName('cartrulequantity');
 
-        if ($this->context->cart->isAllProductsInStock() !== true ||
-            $this->context->cart->checkAllProductsAreStillAvailableInThisState() !== true ||
-            $this->context->cart->checkAllProductsHaveMinimalQuantities() !== true || ($module && $module->active && $module->checkCartRuleQuantity($this->context->cart))) {
+        if ($this->context->cart->isAllProductsInStock() !== true
+            || $this->context->cart->checkAllProductsAreStillAvailableInThisState() !== true
+            || $this->context->cart->checkAllProductsHaveMinimalQuantities() !== true
+            || ($module && $module->active && $module->checkCartRuleQuantity($this->context->cart))) {
             $responseData['errors'] = true;
             $responseData['cartUrl'] = $this->context->link->getPageLink('cart', null, null, ['action' => 'show']);
         }

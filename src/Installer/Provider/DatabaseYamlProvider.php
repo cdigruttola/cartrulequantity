@@ -27,17 +27,16 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Installer\Provider;
 
-use Cartrulequantity;
 use cdigruttola\CartRuleQuantity\Exceptions\DatabaseYamlFileNotExistsException;
 
 class DatabaseYamlProvider
 {
     /**
-     * @var Cartrulequantity
+     * @var \Cartrulequantity
      */
     protected $module;
 
-    public function __construct(Cartrulequantity $module)
+    public function __construct(\Cartrulequantity $module)
     {
         $this->module = $module;
     }

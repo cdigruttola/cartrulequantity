@@ -27,14 +27,12 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Configuration;
 
-use Configuration;
-
 class CartRuleQuantityConfiguration
 {
     public const CART_RULE_DEFAULT_QUANTITY = 'CART_RULE_DEFAULT_QUANTITY';
 
     public function getCartRuleDefaultQuantity()
     {
-        return Configuration::get(self::CART_RULE_DEFAULT_QUANTITY);
+        return \Configuration::get(self::CART_RULE_DEFAULT_QUANTITY);
     }
 }

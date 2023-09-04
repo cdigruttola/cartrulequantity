@@ -30,7 +30,6 @@ namespace cdigruttola\CartRuleQuantity\Controller;
 use cdigruttola\CartRuleQuantity\Entity\CartRuleQuantity;
 use cdigruttola\CartRuleQuantity\Filter\CartRuleQuantityFilters;
 use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
-use Exception;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,7 +71,7 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
 
                 return $this->redirectToRoute('cartrulequantity_controller');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addFlash('error', $this->getErrorMessageForException($e, $this->getErrorMessages($e)));
         }
 
@@ -102,7 +101,7 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
 
                 return $this->redirectToRoute('cartrulequantity_controller');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addFlash('error', $this->getErrorMessageForException($e, $this->getErrorMessages($e)));
         }
 
@@ -247,10 +246,10 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
      *
      * @return array
      */
-    private function getErrorMessages(Exception $e): array
+    private function getErrorMessages(\Exception $e): array
     {
         return [
-            Exception::class => [
+            \Exception::class => [
                 $this->trans(
                     'Generic Exception',
                     TranslationDomains::TRANSLATION_DOMAIN_EXCEPTION
