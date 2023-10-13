@@ -30,6 +30,10 @@ namespace cdigruttola\CartRuleQuantity\Installer;
 use cdigruttola\CartRuleQuantity\Installer\Provider\DatabaseYamlProvider;
 use Symfony\Component\Yaml\Yaml;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class DatabaseYamlParser
 {
     /**

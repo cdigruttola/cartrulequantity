@@ -28,6 +28,10 @@ namespace cdigruttola\CartRuleQuantity\Installer;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 abstract class ActionDatabaseAbstract
 {
     public const HOOK_LIST = [];

@@ -29,6 +29,10 @@ namespace cdigruttola\CartRuleQuantity\Installer\Provider;
 
 use cdigruttola\CartRuleQuantity\Exceptions\DatabaseYamlFileNotExistsException;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class DatabaseYamlProvider
 {
     /**

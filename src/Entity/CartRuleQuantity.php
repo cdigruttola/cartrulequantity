@@ -32,6 +32,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use PrestaShopBundle\Entity\Shop;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 /**
  * @ORM\Entity(repositoryClass="cdigruttola\CartRuleQuantity\Repository\CartRuleQuantityRepository")
  *

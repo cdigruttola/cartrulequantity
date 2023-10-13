@@ -29,6 +29,10 @@ namespace cdigruttola\CartRuleQuantity\Filter;
 
 use PrestaShop\PrestaShop\Core\Search\Filters;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 final class CartRuleQuantityFilters extends Filters
 {
     /**

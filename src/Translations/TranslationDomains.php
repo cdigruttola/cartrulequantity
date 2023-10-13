@@ -27,6 +27,10 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Translations;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class TranslationDomains
 {
     public const ADMIN_GLOBAL = 'Admin.Global';

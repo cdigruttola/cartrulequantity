@@ -35,6 +35,10 @@ use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class CartRuleQuantityController extends FrameworkBundleAdminController
 {
     public function index(CartRuleQuantityFilters $filters): Response

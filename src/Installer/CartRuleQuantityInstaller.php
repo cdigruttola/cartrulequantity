@@ -30,6 +30,10 @@ namespace cdigruttola\CartRuleQuantity\Installer;
 use Doctrine\DBAL\Connection;
 use PrestaShop\PrestaShop\Adapter\ContainerFinder;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class CartRuleQuantityInstaller
 {
     /**

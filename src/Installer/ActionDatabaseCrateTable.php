@@ -27,6 +27,10 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Installer;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class ActionDatabaseCrateTable extends ActionDatabaseAbstract implements ActionDatabaseInterface
 {
     public const defaultEngine = 'InnoDb';

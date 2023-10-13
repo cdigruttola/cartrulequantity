@@ -32,6 +32,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataHandler\FormDataHandlerInterface;
 use PrestaShopBundle\Entity\Shop;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class CartRuleQuantityFormDataHandler implements FormDataHandlerInterface
 {
     /**

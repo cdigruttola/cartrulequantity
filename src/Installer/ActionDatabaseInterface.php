@@ -27,6 +27,10 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Installer;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 interface ActionDatabaseInterface
 {
     public function execute();

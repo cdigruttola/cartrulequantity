@@ -33,6 +33,10 @@ use PrestaShop\PrestaShop\Core\Grid\Data\GridData;
 use PrestaShop\PrestaShop\Core\Grid\Record\RecordCollection;
 use PrestaShop\PrestaShop\Core\Grid\Search\SearchCriteriaInterface;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 final class CartRuleQuantityGridDataFactory implements GridDataFactoryInterface
 {
     /**

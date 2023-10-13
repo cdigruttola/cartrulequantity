@@ -45,6 +45,10 @@ use PrestaShopBundle\Form\Admin\Type\YesAndNoChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class CartRuleQuantityGridDefinitionFactory extends AbstractGridDefinitionFactory
 {
     public const GRID_ID = 'cartrulequantity';

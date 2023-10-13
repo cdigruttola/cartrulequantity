@@ -30,6 +30,10 @@ namespace cdigruttola\CartRuleQuantity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class CartRuleQuantityRepository extends EntityRepository
 {
     public function getAllIds(): array

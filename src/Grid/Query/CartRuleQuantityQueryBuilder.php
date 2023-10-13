@@ -33,6 +33,10 @@ use PrestaShop\PrestaShop\Adapter\Shop\Context;
 use PrestaShop\PrestaShop\Core\Grid\Query\AbstractDoctrineQueryBuilder;
 use PrestaShop\PrestaShop\Core\Grid\Search\SearchCriteriaInterface;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 final class CartRuleQuantityQueryBuilder extends AbstractDoctrineQueryBuilder
 {
     /**

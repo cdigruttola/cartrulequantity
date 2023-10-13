@@ -30,6 +30,10 @@ namespace cdigruttola\CartRuleQuantity\Form\Provider;
 use PrestaShop\PrestaShop\Core\Configuration\DataConfigurationInterface;
 use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class CartRuleQuantityConfigurationFormDataProvider implements FormDataProviderInterface
 {
     /**

@@ -27,6 +27,10 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Configuration;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class CartRuleQuantityConfiguration
 {
     public const CART_RULE_DEFAULT_QUANTITY = 'CART_RULE_DEFAULT_QUANTITY';

@@ -31,6 +31,10 @@ use cdigruttola\CartRuleQuantity\Configuration\CartRuleQuantityConfiguration;
 use PrestaShop\PrestaShop\Core\Configuration\AbstractMultistoreConfiguration;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 final class CartRuleQuantityDataConfiguration extends AbstractMultistoreConfiguration
 {
     private const CONFIGURATION_FIELDS = [
