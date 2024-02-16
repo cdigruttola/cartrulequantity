@@ -126,7 +126,7 @@ services:
       - '@prestashop.core.hook.dispatcher'
       - '@cdigruttola.cartrulequantity.cart_rule_quantity_configuration.form_provider'
       - 'cdigruttola\CartRuleQuantity\Form\CartRuleQuantityConfigurationType'
-      - 'ConfigurationForm'
+      - 'CartRuleQuantityConfigurationForm'
 
   cdigruttola.cartrulequantity.form.cart_rule_quantity_type:
     class: 'cdigruttola\CartRuleQuantity\Form\CartRuleQuantityType'
