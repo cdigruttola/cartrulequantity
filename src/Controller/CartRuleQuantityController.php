@@ -63,7 +63,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
         $configurationForm = $configurationFormHandler->getForm();
 
         return $this->render('@Modules/cartrulequantity/views/templates/admin/index.html.twig', [
-            'translationDomain' => 'Modules.Cartrulequantities.Admin',
+            'translationDomain' => 'Modules.Cartrulequantity.Admin',
             'grid' => $this->presentGrid($grid),
             'configurationForm' => $configurationForm->createView(),
             'help_link' => false,
@@ -97,7 +97,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
 
         return $this->render('@Modules/cartrulequantity/views/templates/admin/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $this->trans('Rules', [], 'Modules.Cartrulequantities.Admin'),
+            'title' => $this->trans('Rules', [], 'Modules.Cartrulequantity.Admin'),
             'help_link' => false,
         ]);
     }
@@ -130,7 +130,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
 
         return $this->render('@Modules/cartrulequantity/views/templates/admin/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $this->trans('Slider edit', [], 'Modules.Cartrulequantities.Admin'),
+            'title' => $this->trans('Slider edit', [], 'Modules.Cartrulequantity.Admin'),
             'help_link' => false,
         ]);
     }
@@ -172,7 +172,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
 
         $this->addFlash(
             'error',
-            $this->trans('Cannot find entity %d', ['%d' => $id], 'Modules.Cartrulequantities.Admin')
+            $this->trans('Cannot find entity %d', ['%d' => $id], 'Modules.Cartrulequantity.Admin')
         );
 
         return $this->redirectToRoute('cartrulequantity_controller');
@@ -231,7 +231,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
         $entity = $repository->findOneBy(['id' => $id]);
 
         if (empty($entity)) {
-            $errors = [$this->trans('Entity %d doesn\'t exist', [$id], 'Modules.Cartrulequantities.Admin')];
+            $errors = [$this->trans('Entity %d doesn\'t exist', [$id], 'Modules.Cartrulequantity.Admin')];
             $this->addFlashErrors($errors);
 
             return $this->redirectToRoute('cartrulequantity_controller');
@@ -244,7 +244,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
 
             $this->addFlash('success', $this->trans('The status has been successfully updated.', [], 'Admin.Notifications.Success'));
         } catch (\Exception $e) {
-            $errors = [$this->trans('There was an error while updating the status of %d: %s', [$id, $e->getMessage()], 'Modules.Cartrulequantities.Admin')];
+            $errors = [$this->trans('There was an error while updating the status of %d: %s', [$id, $e->getMessage()], 'Modules.Cartrulequantity.Admin')];
             $this->addFlashErrors($errors);
         }
 
@@ -263,7 +263,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
                 $this->trans(
                     'Generic Exception',
                     [],
-                    'Modules.Cartrulequantities.Exceptions'
+                    'Modules.Cartrulequantity.Exceptions'
                 ),
             ],
         ];

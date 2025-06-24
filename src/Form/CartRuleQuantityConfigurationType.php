@@ -49,7 +49,7 @@ class CartRuleQuantityConfigurationType extends TranslatorAwareType
             ->add('default_value', TextType::class, [
                 'attr' => ['class' => 'col-md-4 col-lg-2'],
                 'required' => true,
-                'label' => $this->trans('Default value', 'Modules.Cartrulequantities.Admin'),
+                'label' => $this->trans('Default value', 'Modules.Cartrulequantity.Admin'),
                 'multistore_configuration_key' => CartRuleQuantityConfiguration::CART_RULE_DEFAULT_QUANTITY,
                 'constraints' => [
                     new PositiveOrZero(),

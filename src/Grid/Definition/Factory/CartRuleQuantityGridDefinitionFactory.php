@@ -65,7 +65,7 @@ class CartRuleQuantityGridDefinitionFactory extends AbstractGridDefinitionFactor
      */
     protected function getName()
     {
-        return $this->trans('Cart Rule Quantity', [], 'Modules.Cartrulequantities.Admin');
+        return $this->trans('Cart Rule Quantity', [], 'Modules.Cartrulequantity.Admin');
     }
 
     /**

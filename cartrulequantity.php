@@ -55,9 +55,9 @@ class Cartrulequantity extends Module
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = $this->trans('Cart Rule quantities', [], 'Modules.Cartrulequantities.Admin');
-        $this->description = $this->trans('Cart Rule Quantities allows you to set, for each category, a value whereby the total quantities of products in the specific category in the shopping cart must be multiples of that value.', [], 'Modules.Cartrulequantities.Admin');
-        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Cartrulequantities.Admin');
+        $this->displayName = $this->trans('Cart Rule quantities', [], 'Modules.Cartrulequantity.Admin');
+        $this->description = $this->trans('Cart Rule Quantities allows you to set, for each category, a value whereby the total quantities of products in the specific category in the shopping cart must be multiples of that value.', [], 'Modules.Cartrulequantity.Admin');
+        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Cartrulequantity.Admin');
     }
 
     public function isUsingNewTranslationSystem(): bool
@@ -218,7 +218,7 @@ class Cartrulequantity extends Module
                 $errors[] = $this->trans(
                     'Warning, you can only buy products in category %s in multiples of %d',
                     [implode(', ', $this->getCategoryName($rules_products[$rule['id']])), $rule['multiple_quantity_value']],
-                    'Modules.Cartrulequantities.Front'
+                    'Modules.Cartrulequantity.Front'
                 );
             }
         }

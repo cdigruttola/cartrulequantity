@@ -84,7 +84,7 @@ class CartRuleQuantityType extends TranslatorAwareType
                 ],
             ])
             ->add('active', SwitchType::class, [
-                'label' => $this->trans('Active', 'Modules.Cartrulequantities.Admin'),
+                'label' => $this->trans('Active', 'Modules.Cartrulequantity.Admin'),
                 'required' => true,
             ])
             ->add('categories_id', CategoryChoiceTreeType::class, [
@@ -98,7 +98,7 @@ class CartRuleQuantityType extends TranslatorAwareType
                 'shop_association',
                 ShopChoiceTreeType::class,
                 [
-                    'label' => $this->trans('Shop associations', 'Modules.Cartrulequantities.Admin'),
+                    'label' => $this->trans('Shop associations', 'Modules.Cartrulequantity.Admin'),
                     'constraints' => [
                         new NotBlank([
                             'message' => $this->trans(
