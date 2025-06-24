@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Installer;
 
-use Doctrine\DBAL\Connection;
 use PrestaShop\PrestaShop\Adapter\ContainerFinder;
 
 if (!defined('_PS_VERSION_')) {
@@ -42,23 +41,16 @@ class CartRuleQuantityInstaller
     private $databaseYaml;
 
     /**
-     * @var Connection
-     */
-    private $connection;
-
-    /**
      * @var \Context
      */
     private $context;
 
     /**
-     * @param Connection $connection
      * @param DatabaseYamlParser $databaseYaml
      * @param \Context $context
      */
-    public function __construct(Connection $connection, DatabaseYamlParser $databaseYaml, $context)
+    public function __construct(DatabaseYamlParser $databaseYaml, \Context $context)
     {
-        $this->connection = $connection;
         $this->databaseYaml = $databaseYaml;
         $this->context = $context;
     }

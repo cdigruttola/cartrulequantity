@@ -26,7 +26,7 @@
 namespace cdigruttola\CartRuleQuantity\Installer;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Exception as DBALException;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -67,9 +67,9 @@ abstract class ActionDatabaseAbstract
         $result = true;
 
         foreach ($this->getQueries() as $query) {
-            $statement = $this->connection->executeQuery($query);
-
-            if ($statement instanceof Statement && 0 !== (int) $statement->errorCode()) {
+            try {
+                $this->connection->executeQuery($query);
+            } catch (DBALException $e) {
                 $result &= false;
             }
         }

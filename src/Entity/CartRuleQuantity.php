@@ -105,6 +105,13 @@ class CartRuleQuantity
         return $this->id;
     }
 
+    public function setId(int $id): CartRuleQuantity
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     /**
      * @return string
      */

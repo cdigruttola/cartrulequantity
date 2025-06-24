@@ -28,7 +28,6 @@ declare(strict_types=1);
 namespace cdigruttola\CartRuleQuantity\Form;
 
 use cdigruttola\CartRuleQuantity\Configuration\CartRuleQuantityConfiguration;
-use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
 use PrestaShop\PrestaShop\Core\ConstraintValidator\Constraints\PositiveOrZero;
 use PrestaShopBundle\Form\Admin\Type\MultistoreConfigurationType;
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
@@ -50,7 +49,7 @@ class CartRuleQuantityConfigurationType extends TranslatorAwareType
             ->add('default_value', TextType::class, [
                 'attr' => ['class' => 'col-md-4 col-lg-2'],
                 'required' => true,
-                'label' => $this->trans('Default value', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+                'label' => $this->trans('Default value', 'Modules.Cartrulequantities.Admin'),
                 'multistore_configuration_key' => CartRuleQuantityConfiguration::CART_RULE_DEFAULT_QUANTITY,
                 'constraints' => [
                     new PositiveOrZero(),

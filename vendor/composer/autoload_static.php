@@ -47,7 +47,6 @@ class ComposerStaticInit63f497fb7d196ecdaf1fc8856895df06
         'cdigruttola\\CartRuleQuantity\\Installer\\DatabaseYamlParser' => __DIR__ . '/../..' . '/src/Installer/DatabaseYamlParser.php',
         'cdigruttola\\CartRuleQuantity\\Installer\\Provider\\DatabaseYamlProvider' => __DIR__ . '/../..' . '/src/Installer/Provider/DatabaseYamlProvider.php',
         'cdigruttola\\CartRuleQuantity\\Repository\\CartRuleQuantityRepository' => __DIR__ . '/../..' . '/src/Repository/CartRuleQuantityRepository.php',
-        'cdigruttola\\CartRuleQuantity\\Translations\\TranslationDomains' => __DIR__ . '/../..' . '/src/Translations/TranslationDomains.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

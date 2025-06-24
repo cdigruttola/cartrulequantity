@@ -32,5 +32,4 @@ return array(
     'cdigruttola\\CartRuleQuantity\\Installer\\DatabaseYamlParser' => $baseDir . '/src/Installer/DatabaseYamlParser.php',
     'cdigruttola\\CartRuleQuantity\\Installer\\Provider\\DatabaseYamlProvider' => $baseDir . '/src/Installer/Provider/DatabaseYamlProvider.php',
     'cdigruttola\\CartRuleQuantity\\Repository\\CartRuleQuantityRepository' => $baseDir . '/src/Repository/CartRuleQuantityRepository.php',
-    'cdigruttola\\CartRuleQuantity\\Translations\\TranslationDomains' => $baseDir . '/src/Translations/TranslationDomains.php',
 );

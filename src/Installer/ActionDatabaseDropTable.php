@@ -40,7 +40,7 @@ class ActionDatabaseDropTable extends ActionDatabaseAbstract implements ActionDa
         $queriesArray = [];
 
         foreach ($tablesArray as $tableName => $table) {
-            $queriesArray[] = $this->buildSingleDropQuery($tableName, $table);
+            $queriesArray[] = $this->buildSingleDropQuery($tableName);
         }
 
         $this->setQueries($queriesArray);

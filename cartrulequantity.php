@@ -35,7 +35,6 @@ use cdigruttola\CartRuleQuantity\Installer\CartRuleQuantityInstaller;
 use cdigruttola\CartRuleQuantity\Installer\DatabaseYamlParser;
 use cdigruttola\CartRuleQuantity\Installer\Provider\DatabaseYamlProvider;
 use cdigruttola\CartRuleQuantity\Repository\CartRuleQuantityRepository;
-use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
@@ -56,9 +55,9 @@ class Cartrulequantity extends Module
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = $this->trans('Cart Rule quantities', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN);
-        $this->description = $this->trans('Cart Rule Quantities allows you to set, for each category, a value whereby the total quantities of products in the specific category in the shopping cart must be multiples of that value.', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN);
-        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN);
+        $this->displayName = $this->trans('Cart Rule quantities', [], 'Modules.Cartrulequantities.Admin');
+        $this->description = $this->trans('Cart Rule Quantities allows you to set, for each category, a value whereby the total quantities of products in the specific category in the shopping cart must be multiples of that value.', [], 'Modules.Cartrulequantities.Admin');
+        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Cartrulequantities.Admin');
     }
 
     public function isUsingNewTranslationSystem(): bool
@@ -108,7 +107,6 @@ class Cartrulequantity extends Module
 
         if (null === $installer) {
             $installer = new CartRuleQuantityInstaller(
-                $this->getService('doctrine.dbal.default_connection'),
                 new DatabaseYamlParser(new DatabaseYamlProvider($this)),
                 $this->context
             );
@@ -144,13 +142,11 @@ class Cartrulequantity extends Module
     }
 
     /**
-     * @template T
+     * @param string $serviceName
      *
-     * @param class-string<T>|string $serviceName
-     *
-     * @return T|object|null
+     * @return object|null
      */
-    public function getService($serviceName)
+    public function getService(string $serviceName)
     {
         try {
             return $this->get($serviceName);
@@ -222,7 +218,7 @@ class Cartrulequantity extends Module
                 $errors[] = $this->trans(
                     'Warning, you can only buy products in category %s in multiples of %d',
                     [implode(', ', $this->getCategoryName($rules_products[$rule['id']])), $rule['multiple_quantity_value']],
-                    TranslationDomains::TRANSLATION_DOMAIN_FRONT
+                    'Modules.Cartrulequantities.Front'
                 );
             }
         }

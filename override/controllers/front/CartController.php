@@ -29,15 +29,23 @@ if (!defined('_PS_VERSION_')) {
 class CartController extends CartControllerCore
 {
     /**
+     * @property Cartrulequantity $module
+     */
+    public $module;
+
+    /**
      * @inerhitDoc
      */
     public function init(): void
     {
         parent::init();
 
-        $this->module = Module::getInstanceByName('cartrulequantity');
+        /** @var Cartrulequantity $module */
+        $module = Module::getInstanceByName('cartrulequantity');
+        $this->module = $module;
+
         if ('show' === Tools::getValue('action')) {
-            if ($this->module && $this->module->active && ($errors = $this->module->checkCartRuleQuantity($this->context->cart))) {
+            if ($this->module->active && ($errors = $this->module->checkCartRuleQuantity($this->context->cart))) {
                 foreach ($errors as $error) {
                     $this->errors[] = $error;
                 }
@@ -47,7 +55,11 @@ class CartController extends CartControllerCore
 
     public function displayAjaxUpdate(): void
     {
-        if ($this->module && $this->module->active && ($errors = $this->module->checkCartRuleQuantity($this->context->cart))) {
+        /** @var Cartrulequantity $module */
+        $module = Module::getInstanceByName('cartrulequantity');
+        $this->module = $module;
+
+        if ($this->module->active && ($errors = $this->module->checkCartRuleQuantity($this->context->cart))) {
             foreach ($errors as $error) {
                 $this->updateOperationError[] = $error;
             }
@@ -65,7 +77,11 @@ class CartController extends CartControllerCore
         header('Content-Type: application/json');
 
         $cart_detailed_action = $this->render('checkout/_partials/cart-detailed-actions');
-        if ($this->module && $this->module->active && ($errors = $this->module->checkCartRuleQuantity($this->context->cart))) {
+
+        /** @var Cartrulequantity $module */
+        $module = Module::getInstanceByName('cartrulequantity');
+        $this->module = $module;
+        if ($this->module->active && ($errors = $this->module->checkCartRuleQuantity($this->context->cart))) {
             foreach ($errors as $error) {
                 $this->errors[] = $error;
             }

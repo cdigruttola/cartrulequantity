@@ -27,8 +27,6 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Form;
 
-use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
-use PrestaShop\PrestaShop\Adapter\LegacyContext;
 use PrestaShop\PrestaShop\Core\ConstraintValidator\Constraints\PositiveOrZero;
 use PrestaShopBundle\Form\Admin\Type\CategoryChoiceTreeType;
 use PrestaShopBundle\Form\Admin\Type\ShopChoiceTreeType;
@@ -49,27 +47,20 @@ class CartRuleQuantityType extends TranslatorAwareType
      * @var bool
      */
     private $isMultistoreUsed;
-    /**
-     * @var LegacyContext
-     */
-    private $context;
 
     /**
      * @param TranslatorInterface $translator
      * @param array $locales
      * @param bool $isMultistoreUsed
-     * @param LegacyContext $context
      */
     public function __construct(
         TranslatorInterface $translator,
         array $locales,
         bool $isMultistoreUsed,
-        LegacyContext $context
     ) {
         parent::__construct($translator, $locales);
 
         $this->isMultistoreUsed = $isMultistoreUsed;
-        $this->context = $context;
     }
 
     /**
@@ -79,21 +70,21 @@ class CartRuleQuantityType extends TranslatorAwareType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => $this->trans('Name', TranslationDomains::ADMIN_GLOBAL),
+                'label' => $this->trans('Name', 'Admin.Global'),
                 'required' => true,
                 'constraints' => [
                     new NotBlank(),
                 ],
             ])
             ->add('quantity', TextType::class, [
-                'label' => $this->trans('Quantity', TranslationDomains::ADMIN_GLOBAL),
+                'label' => $this->trans('Quantity', 'Admin.Global'),
                 'required' => true,
                 'constraints' => [
                     new PositiveOrZero(),
                 ],
             ])
             ->add('active', SwitchType::class, [
-                'label' => $this->trans('Active', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+                'label' => $this->trans('Active', 'Modules.Cartrulequantities.Admin'),
                 'required' => true,
             ])
             ->add('categories_id', CategoryChoiceTreeType::class, [
@@ -107,7 +98,7 @@ class CartRuleQuantityType extends TranslatorAwareType
                 'shop_association',
                 ShopChoiceTreeType::class,
                 [
-                    'label' => $this->trans('Shop associations', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+                    'label' => $this->trans('Shop associations', 'Modules.Cartrulequantities.Admin'),
                     'constraints' => [
                         new NotBlank([
                             'message' => $this->trans(

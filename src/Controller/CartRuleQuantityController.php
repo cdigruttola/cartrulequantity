@@ -29,7 +29,6 @@ namespace cdigruttola\CartRuleQuantity\Controller;
 
 use cdigruttola\CartRuleQuantity\Filter\CartRuleQuantityFilters;
 use cdigruttola\CartRuleQuantity\Repository\CartRuleQuantityRepository;
-use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
 use Doctrine\ORM\EntityManagerInterface;
 use PrestaShop\PrestaShop\Core\Context\ShopContext;
 use PrestaShop\PrestaShop\Core\Form\Handler;
@@ -41,7 +40,6 @@ use PrestaShopBundle\Entity\Repository\ShopRepository;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -65,7 +63,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
         $configurationForm = $configurationFormHandler->getForm();
 
         return $this->render('@Modules/cartrulequantity/views/templates/admin/index.html.twig', [
-            'translationDomain' => TranslationDomains::TRANSLATION_DOMAIN_ADMIN,
+            'translationDomain' => 'Modules.Cartrulequantities.Admin',
             'grid' => $this->presentGrid($grid),
             'configurationForm' => $configurationForm->createView(),
             'help_link' => false,
@@ -99,7 +97,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
 
         return $this->render('@Modules/cartrulequantity/views/templates/admin/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $this->trans('Slider',  [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+            'title' => $this->trans('Rules', [], 'Modules.Cartrulequantities.Admin'),
             'help_link' => false,
         ]);
     }
@@ -132,7 +130,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
 
         return $this->render('@Modules/cartrulequantity/views/templates/admin/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $this->trans('Slider edit', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+            'title' => $this->trans('Slider edit', [], 'Modules.Cartrulequantities.Admin'),
             'help_link' => false,
         ]);
     }
@@ -174,7 +172,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
 
         $this->addFlash(
             'error',
-            $this->trans('Cannot find entity %d', ['%d' => $id], TranslationDomains::TRANSLATION_DOMAIN_ADMIN)
+            $this->trans('Cannot find entity %d', ['%d' => $id], 'Modules.Cartrulequantities.Admin')
         );
 
         return $this->redirectToRoute('cartrulequantity_controller');
@@ -233,7 +231,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
         $entity = $repository->findOneBy(['id' => $id]);
 
         if (empty($entity)) {
-            $errors = [$this->trans('Entity %d doesn\'t exist', [$id], TranslationDomains::TRANSLATION_DOMAIN_ADMIN)];
+            $errors = [$this->trans('Entity %d doesn\'t exist', [$id], 'Modules.Cartrulequantities.Admin')];
             $this->addFlashErrors($errors);
 
             return $this->redirectToRoute('cartrulequantity_controller');
@@ -246,7 +244,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
 
             $this->addFlash('success', $this->trans('The status has been successfully updated.', [], 'Admin.Notifications.Success'));
         } catch (\Exception $e) {
-            $errors = [$this->trans('There was an error while updating the status of %d: %s', [$id, $e->getMessage()], TranslationDomains::TRANSLATION_DOMAIN_ADMIN)];
+            $errors = [$this->trans('There was an error while updating the status of %d: %s', [$id, $e->getMessage()], 'Modules.Cartrulequantities.Admin')];
             $this->addFlashErrors($errors);
         }
 
@@ -265,7 +263,7 @@ class CartRuleQuantityController extends PrestaShopAdminController
                 $this->trans(
                     'Generic Exception',
                     [],
-                    TranslationDomains::TRANSLATION_DOMAIN_EXCEPTION
+                    'Modules.Cartrulequantities.Exceptions'
                 ),
             ],
         ];
@@ -279,5 +277,4 @@ class CartRuleQuantityController extends PrestaShopAdminController
                 ShopContext::class => ShopContext::class,
             ];
     }
-
 }

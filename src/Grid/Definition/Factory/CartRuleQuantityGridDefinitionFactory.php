@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Grid\Definition\Factory;
 
-use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
 use PrestaShop\PrestaShop\Core\Grid\Action\Bulk\BulkActionCollection;
 use PrestaShop\PrestaShop\Core\Grid\Action\GridActionCollection;
 use PrestaShop\PrestaShop\Core\Grid\Action\Row\RowActionCollection;
@@ -66,7 +65,7 @@ class CartRuleQuantityGridDefinitionFactory extends AbstractGridDefinitionFactor
      */
     protected function getName()
     {
-        return $this->trans('Cart Rule Quantity', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN);
+        return $this->trans('Cart Rule Quantity', [], 'Modules.Cartrulequantities.Admin');
     }
 
     /**
