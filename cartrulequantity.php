@@ -48,10 +48,10 @@ class Cartrulequantity extends Module
         $this->name = 'cartrulequantity';
         $this->author = 'cdigruttola';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.0';
+        $this->version = '2.0.0';
         $this->need_instance = 0;
 
-        $this->ps_versions_compliancy = ['min' => '1.7.8.0', 'max' => _PS_VERSION_];
+        $this->ps_versions_compliancy = ['min' => '9.0.0', 'max' => _PS_VERSION_];
 
         $this->bootstrap = true;
         parent::__construct();
@@ -120,7 +120,7 @@ class Cartrulequantity extends Module
     private function getRepository(): ?CartRuleQuantityRepository
     {
         try {
-            $entityRepository = $this->getService('cdigruttola.cartrulequantity.repository.cart_rule_quantity');
+            $entityRepository = $this->getService(CartRuleQuantityRepository::class);
         } catch (Error $error) {
             $entityRepository = null;
         }

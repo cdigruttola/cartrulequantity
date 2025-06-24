@@ -65,7 +65,7 @@ final class CartRuleQuantityQueryBuilder extends AbstractDoctrineQueryBuilder
      */
     public function getSearchQueryBuilder(SearchCriteriaInterface $searchCriteria): QueryBuilder
     {
-        $qb = $this->getBaseQuery($searchCriteria->getFilters());
+        $qb = $this->getBaseQuery();
         $qb->select('s.*');
         if (!$this->shopContext->isAllShopContext()) {
             $qb->join('s', $this->dbPrefix . 'cart_rule_quantity_shop', 'ss', 'ss.id_cart_rule_quantity = s.id_cart_rule_quantity')
@@ -76,9 +76,11 @@ final class CartRuleQuantityQueryBuilder extends AbstractDoctrineQueryBuilder
         $qb->orderBy(
             $searchCriteria->getOrderBy(),
             $searchCriteria->getOrderWay()
-        )
-            ->setFirstResult($searchCriteria->getOffset())
-            ->setMaxResults($searchCriteria->getLimit());
+        );
+        if ($searchCriteria->getOffset()) {
+            $qb->setFirstResult($searchCriteria->getOffset());
+        }
+        $qb->setMaxResults($searchCriteria->getLimit());
 
         $qb->orderBy('id_cart_rule_quantity');
 

@@ -2,7 +2,7 @@
 <module>
     <name>cartrulequantity</name>
     <displayName><![CDATA[Cart Rule quantities]]></displayName>
-    <version><![CDATA[1.0.0]]></version>
+    <version><![CDATA[2.0.0]]></version>
     <description><![CDATA[Cart Rule Quantities allows you to set, for each category, a value whereby the total quantities of products in the specific category in the shopping cart must be multiples of that value.]]></description>
     <author><![CDATA[cdigruttola]]></author>
     <tab><![CDATA[front_office_features]]></tab>

@@ -8,7 +8,11 @@ services:
   # Controller
   cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController:
     public: true
+    autowire: true
+    autoconfigure: true
     class: cdigruttola\CartRuleQuantity\Controller\CartRuleQuantityController
+    arguments:
+      - '@prestashop.core.admin.shop.repository'
 
   # installer
   cdigruttola.cartrulequantity.cart_rule_quantity_installer:
@@ -49,12 +53,12 @@ services:
   cdigruttola.cartrulequantity.form.identifiable_object.data_provider.cart_rule_quantity_form_data_provider:
     class: 'cdigruttola\CartRuleQuantity\Form\Provider\CartRuleQuantityFormDataProvider'
     arguments:
-      - '@cdigruttola.cartrulequantity.repository.cart_rule_quantity'
+      - '@cdigruttola\CartRuleQuantity\Repository\CartRuleQuantityRepository'
       - '@prestashop.adapter.shop.context'
 
   cdigruttola.cartrulequantity.form.identifiable_object.builder.cart_rule_quantity_form_builder:
     class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder'
-    factory: 'prestashop.core.form.builder.form_builder_factory:create'
+    factory: [ '@prestashop.core.form.builder.form_builder_factory', 'create' ]
     arguments:
       - 'cdigruttola\CartRuleQuantity\Form\CartRuleQuantityType'
       - '@cdigruttola.cartrulequantity.form.identifiable_object.data_provider.cart_rule_quantity_form_data_provider'
@@ -66,7 +70,7 @@ services:
 
   cdigruttola.cartrulequantity.form.identifiable_object.handler.cart_rule_quantity_form_handler:
     class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler'
-    factory: 'prestashop.core.form.identifiable_object.handler.form_handler_factory:create'
+    factory: [ '@prestashop.core.form.identifiable_object.handler.form_handler_factory', 'create' ]
     arguments:
       - '@cdigruttola.cartrulequantity.form.identifiable_object.data_handler.cart_rule_quantity_form_data_handler'
 

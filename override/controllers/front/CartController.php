@@ -28,13 +28,10 @@ if (!defined('_PS_VERSION_')) {
 
 class CartController extends CartControllerCore
 {
-    /** @var Cartrulequantity|false */
-    private $module;
-
     /**
      * @inerhitDoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -48,7 +45,7 @@ class CartController extends CartControllerCore
         }
     }
 
-    public function displayAjaxUpdate()
+    public function displayAjaxUpdate(): void
     {
         if ($this->module && $this->module->active && ($errors = $this->module->checkCartRuleQuantity($this->context->cart))) {
             foreach ($errors as $error) {
@@ -58,7 +55,7 @@ class CartController extends CartControllerCore
         parent::displayAjaxUpdate();
     }
 
-    public function displayAjaxRefresh()
+    public function displayAjaxRefresh(): void
     {
         if (Configuration::isCatalogMode()) {
             return;

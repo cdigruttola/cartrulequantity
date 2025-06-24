@@ -9,7 +9,7 @@ services:
     arguments:
       - 'cartrulequantity'
 
-  cdigruttola.cartrulequantity.repository.cart_rule_quantity:
+  cdigruttola\CartRuleQuantity\Repository\CartRuleQuantityRepository:
     class: cdigruttola\CartRuleQuantity\Repository\CartRuleQuantityRepository
     public: true
     factory: ['@doctrine.orm.default_entity_manager', getRepository]

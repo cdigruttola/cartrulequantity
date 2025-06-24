@@ -27,26 +27,42 @@ declare(strict_types=1);
 
 namespace cdigruttola\CartRuleQuantity\Controller;
 
-use cdigruttola\CartRuleQuantity\Entity\CartRuleQuantity;
 use cdigruttola\CartRuleQuantity\Filter\CartRuleQuantityFilters;
+use cdigruttola\CartRuleQuantity\Repository\CartRuleQuantityRepository;
 use cdigruttola\CartRuleQuantity\Translations\TranslationDomains;
-use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
-use PrestaShopBundle\Entity\Shop;
+use Doctrine\ORM\EntityManagerInterface;
+use PrestaShop\PrestaShop\Core\Context\ShopContext;
+use PrestaShop\PrestaShop\Core\Form\Handler;
+use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilderInterface;
+use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler;
+use PrestaShop\PrestaShop\Core\Grid\GridFactory;
+use PrestaShopBundle\Controller\Admin\PrestaShopAdminController;
+use PrestaShopBundle\Entity\Repository\ShopRepository;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-class CartRuleQuantityController extends FrameworkBundleAdminController
+class CartRuleQuantityController extends PrestaShopAdminController
 {
-    public function index(CartRuleQuantityFilters $filters): Response
+    public function __construct(private readonly ShopRepository $shopRepository)
     {
-        $gridFactory = $this->get('cdigruttola.cartrulequantity.grid.cart_rule_quantity_grid_factory');
+    }
+
+    public function index(
+        CartRuleQuantityFilters $filters,
+        #[Autowire(service: 'cdigruttola.cartrulequantity.cart_rule_quantity_configuration.form_handler')]
+        Handler $configurationFormHandler,
+        #[Autowire(service: 'cdigruttola.cartrulequantity.grid.cart_rule_quantity_grid_factory')]
+        GridFactory $gridFactory,
+    ): Response {
         $grid = $gridFactory->getGrid($filters);
 
-        $configurationForm = $this->get('cdigruttola.cartrulequantity.cart_rule_quantity_configuration.form_handler')->getForm();
+        $configurationForm = $configurationFormHandler->getForm();
 
         return $this->render('@Modules/cartrulequantity/views/templates/admin/index.html.twig', [
             'translationDomain' => TranslationDomains::TRANSLATION_DOMAIN_ADMIN,
@@ -56,13 +72,15 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
         ]);
     }
 
-    public function create(Request $request): Response
-    {
-        $formDataHandler = $this->get('cdigruttola.cartrulequantity.form.identifiable_object.builder.cart_rule_quantity_form_builder');
+    public function create(
+        Request $request,
+        #[Autowire(service: 'cdigruttola.cartrulequantity.form.identifiable_object.builder.cart_rule_quantity_form_builder')]
+        FormBuilderInterface $formDataHandler,
+        #[Autowire(service: 'cdigruttola.cartrulequantity.form.identifiable_object.handler.cart_rule_quantity_form_handler')]
+        FormHandler $formHandler,
+    ): Response {
         $form = $formDataHandler->getForm();
         $form->handleRequest($request);
-
-        $formHandler = $this->get('cdigruttola.cartrulequantity.form.identifiable_object.handler.cart_rule_quantity_form_handler');
 
         try {
             $result = $formHandler->handle($form);
@@ -70,7 +88,7 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
             if (null !== $result->getIdentifiableObjectId()) {
                 $this->addFlash(
                     'success',
-                    $this->trans('Successful creation.', 'Admin.Notifications.Success')
+                    $this->trans('Successful creation.', [], 'Admin.Notifications.Success')
                 );
 
                 return $this->redirectToRoute('cartrulequantity_controller');
@@ -81,18 +99,21 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
 
         return $this->render('@Modules/cartrulequantity/views/templates/admin/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $this->trans('Slider', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+            'title' => $this->trans('Slider',  [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
             'help_link' => false,
         ]);
     }
 
-    public function edit(Request $request, int $id): Response
-    {
-        $formBuilder = $this->get('cdigruttola.cartrulequantity.form.identifiable_object.builder.cart_rule_quantity_form_builder');
-        $form = $formBuilder->getFormFor((int) $id);
+    public function edit(
+        Request $request,
+        int $id,
+        #[Autowire(service: 'cdigruttola.cartrulequantity.form.identifiable_object.builder.cart_rule_quantity_form_builder')]
+        FormBuilderInterface $formDataHandler,
+        #[Autowire(service: 'cdigruttola.cartrulequantity.form.identifiable_object.handler.cart_rule_quantity_form_handler')]
+        FormHandler $formHandler,
+    ): Response {
+        $form = $formDataHandler->getFormFor($id);
         $form->handleRequest($request);
-
-        $formHandler = $this->get('cdigruttola.cartrulequantity.form.identifiable_object.handler.cart_rule_quantity_form_handler');
 
         try {
             $result = $formHandler->handleFor($id, $form);
@@ -100,7 +121,7 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
             if (null !== $result->getIdentifiableObjectId()) {
                 $this->addFlash(
                     'success',
-                    $this->trans('Successful edition.', 'Admin.Notifications.Success')
+                    $this->trans('Successful edition.', [], 'Admin.Notifications.Success')
                 );
 
                 return $this->redirectToRoute('cartrulequantity_controller');
@@ -111,29 +132,26 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
 
         return $this->render('@Modules/cartrulequantity/views/templates/admin/form.html.twig', [
             'form' => $form->createView(),
-            'title' => $this->trans('Slider edit', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+            'title' => $this->trans('Slider edit', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
             'help_link' => false,
         ]);
     }
 
     public function delete(Request $request, int $id): Response
     {
-        $entity = $this->getDoctrine()
-            ->getRepository(CartRuleQuantity::class)
-            ->find($id);
+        $repository = $this->container->get(CartRuleQuantityRepository::class);
+        $entity = $repository->findOneBy(['id' => $id]);
 
         if (!empty($entity)) {
-            $multistoreContext = $this->get('prestashop.adapter.shop.context');
-            $entityManager = $this->get('doctrine.orm.entity_manager');
+            $multistoreContext = $this->container->get(ShopContext::class);
+            $entityManager = $this->container->get(EntityManagerInterface::class);
 
             if ($multistoreContext->isAllShopContext()) {
                 $entity->clearShops();
 
                 $entityManager->remove($entity);
             } else {
-                $shopList = $this->getDoctrine()
-                    ->getRepository(Shop::class)
-                    ->findBy(['id' => $multistoreContext->getContextListShopID()]);
+                $shopList = $this->shopRepository->findBy(['id' => \Shop::getContextListShopID()]);
 
                 foreach ($shopList as $shop) {
                     $entity->removeShop($shop);
@@ -148,7 +166,7 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
             $entityManager->flush();
             $this->addFlash(
                 'success',
-                $this->trans('Successful deletion.', 'Admin.Notifications.Success')
+                $this->trans('Successful deletion.', [], 'Admin.Notifications.Success')
             );
 
             return $this->redirectToRoute('cartrulequantity_controller');
@@ -156,7 +174,7 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
 
         $this->addFlash(
             'error',
-            $this->trans('Cannot find entity %d', TranslationDomains::TRANSLATION_DOMAIN_ADMIN, ['%d' => $id])
+            $this->trans('Cannot find entity %d', ['%d' => $id], TranslationDomains::TRANSLATION_DOMAIN_ADMIN)
         );
 
         return $this->redirectToRoute('cartrulequantity_controller');
@@ -167,11 +185,14 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
      *
      * @return Response
      */
-    public function saveConfiguration(Request $request): Response
-    {
+    public function saveConfiguration(
+        Request $request,
+        #[Autowire(service: 'cdigruttola.cartrulequantity.cart_rule_quantity_configuration.form_handler')]
+        Handler $configurationFormHandler,
+    ): Response {
         $redirectResponse = $this->redirectToRoute('cartrulequantity_controller');
 
-        $form = $this->get('cdigruttola.cartrulequantity.cart_rule_quantity_configuration.form_handler')->getForm();
+        $form = $configurationFormHandler->getForm();
         $form->handleRequest($request);
 
         if (!$form->isSubmitted()) {
@@ -180,10 +201,10 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
 
         if ($form->isValid()) {
             $data = $form->getData();
-            $saveErrors = $this->get('cdigruttola.cartrulequantity.cart_rule_quantity_configuration.form_handler')->save($data);
+            $saveErrors = $configurationFormHandler->save($data);
 
             if (0 === count($saveErrors)) {
-                $this->addFlash('success', $this->trans('Successful update.', 'Admin.Notifications.Success'));
+                $this->addFlash('success', $this->trans('Successful update.', [], 'Admin.Notifications.Success'));
 
                 return $redirectResponse;
             }
@@ -195,7 +216,7 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
             $formErrors[] = $error->getMessage();
         }
 
-        $this->flashErrors($formErrors);
+        $this->addFlashErrors($formErrors);
 
         return $redirectResponse;
     }
@@ -208,38 +229,25 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
      */
     public function toggleStatus(Request $request, int $id): Response
     {
-        $entityManager = $this->get('doctrine.orm.entity_manager');
-        $entity = $entityManager
-            ->getRepository(CartRuleQuantity::class)
-            ->findOneBy(['id' => $id]);
+        $repository = $this->container->get(CartRuleQuantityRepository::class);
+        $entity = $repository->findOneBy(['id' => $id]);
 
         if (empty($entity)) {
-            $response = [
-                'status' => false,
-                'message' => sprintf('Entity %d doesn\'t exist', $id),
-            ];
-            $errors = [$response];
-            $this->flashErrors($errors);
+            $errors = [$this->trans('Entity %d doesn\'t exist', [$id], TranslationDomains::TRANSLATION_DOMAIN_ADMIN)];
+            $this->addFlashErrors($errors);
 
             return $this->redirectToRoute('cartrulequantity_controller');
         }
 
         try {
             $entity->setActive(!$entity->getActive());
-            $entityManager->flush();
+            $em = $this->container->get(EntityManagerInterface::class);
+            $em->flush();
 
-            $this->addFlash('success', $this->trans('The status has been successfully updated.', 'Admin.Notifications.Success'));
+            $this->addFlash('success', $this->trans('The status has been successfully updated.', [], 'Admin.Notifications.Success'));
         } catch (\Exception $e) {
-            $response = [
-                'status' => false,
-                'message' => sprintf(
-                    'There was an error while updating the status of slide %d: %s',
-                    $id,
-                    $e->getMessage()
-                ),
-            ];
-            $errors = [$response];
-            $this->flashErrors($errors);
+            $errors = [$this->trans('There was an error while updating the status of %d: %s', [$id, $e->getMessage()], TranslationDomains::TRANSLATION_DOMAIN_ADMIN)];
+            $this->addFlashErrors($errors);
         }
 
         return $this->redirectToRoute('cartrulequantity_controller');
@@ -256,9 +264,20 @@ class CartRuleQuantityController extends FrameworkBundleAdminController
             \Exception::class => [
                 $this->trans(
                     'Generic Exception',
+                    [],
                     TranslationDomains::TRANSLATION_DOMAIN_EXCEPTION
                 ),
             ],
         ];
     }
+
+    public static function getSubscribedServices(): array
+    {
+        return parent::getSubscribedServices() + [
+                CartRuleQuantityRepository::class => CartRuleQuantityRepository::class,
+                EntityManagerInterface::class => EntityManagerInterface::class,
+                ShopContext::class => ShopContext::class,
+            ];
+    }
+
 }
